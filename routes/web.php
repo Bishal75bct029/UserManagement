@@ -19,5 +19,5 @@ Route::get('/', function () {
 
 Route::get('/home', [UserController::class, 'getAllData'])->name('home');
 Route::match(['get','post'],'/addData',[UserController::class,'submitData']);
-Route::put('/edit/{id}',[UserController::class, 'updateData'])->name('edit');
+Route::match(['put','get'],'/edit/{id}',[UserController::class, 'updateData'])->name('edit');
 Route::delete('/delete/{id}',[UserController::class,'deleteData']);

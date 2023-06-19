@@ -15,21 +15,22 @@
                             <th scope="col" class="px-6 py-4">Address</th>
                             <th scope="col" class="px-6 py-4">Email</th>
                             <th scope="col" class="px-6 py-4">Postal Code</th>
-                            <th scope="col" class="px-6 py-4">Action</th>
+                            <th scope="col" class="px-2 py-2">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($data as $users)
-                        <tr class="border-b dark:border-neutral-500">
+                        <tr class="border-b dark:border-neutral-500 h-20">
                             <td class="whitespace-nowrap px-6 py-4">{{$users->name}}</td>
                             <td class="whitespace-nowrap px-6 py-4">{{$users->address}}</td>
                             <td class="whitespace-nowrap px-6 py-4">{{$users->email}}</td>
                             <td class="whitespace-nowrap px-6 py-4">{{$users->postalcode}}</td>
                             <td>
-                                <form action="{{route('edit',$users->id)}}" method = "POST">
+                                <a href="/edit/{{$users->id}}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 mt-10 rounded h-auto w-auto" style = "margin-top:14px;">Edit</a>
+                                <form action="/delete/{{$users->id}}" method="post" >
                                     @csrf
-                                    @method('PUT')
-                                    <button type="submit">Edit</button>
+                                    @method('DELETE')
+                                    <button onclick="confirm('Are you sure want to delete it?')" class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 m-2 px-2 rounded" >Delete</button>
                                 </form>
                             </td>
                         </tr>

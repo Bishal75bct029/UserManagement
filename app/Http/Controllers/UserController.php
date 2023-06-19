@@ -47,11 +47,49 @@ class UserController extends Controller
         
     }
 
-    public function updateData(Request $request){
+    public function updateData(Request $request,$id){
+        if($request->isMethod('get')){
+            $users = User::find($id);
+            return view('update')->with('users',$users);
+        }
+        elseif($request->isMethod('put')){
+            // dd('hi');
+            $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
+                'name' => 'required|string|max:255',
+                'email' => [
+                    'required',
+                    'email',
+                    'max:255',
+                    Rule::unique('users')->ignore($id),
+                ],
+                'address' => 'required|max:255',
+                'postalcode' => 'required|integer',
+                // Add validation rules for other form fields as needed
+            ]);
+        
+            if ($validator->fails()) {
+                return redirect()->back()
+                    ->withInput()
+                    ->withErrors($validator);
+            }
+        
+            $data = User::find($id);
+            $data->name = $request['name'];
+            $data->email = $request['email'];
+            $data->address = $request['address'];
+            $data->postalcode = $request['postalcode'];
 
+            $data->save();
+
+            return redirect()->route('home')->with('update','Record Updated Successfully');
+        }
+        
     }
 
-    public function deleteData(Request $request){
+    public function deleteData(Request $request, $id){
+        $user = User::find($id);
+        $user->delete();
+        return redirect()->back()->with('delete', 'Record deleted successfully');
 
     }
 }

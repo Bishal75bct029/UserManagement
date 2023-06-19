@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,6 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/home',function(){
-    return view('master');
-});
+Route::get('/home', [UserController::class, 'getAllData'])->name('home');
+Route::match(['get','post'],'/addData',[UserController::class,'submitData']);
+Route::put('/edit/{id}',[UserController::class, 'updateData'])->name('edit');
+Route::delete('/delete/{id}',[UserController::class,'deleteData']);
